@@ -6,8 +6,8 @@
     <xacro:property name="chassis_length" value="0.4"/>
 
     <xacro:property name="wheel_thickness" value="0.01"/>
-    <xacro:property name="wheel_offset_y" value="0.1625"/>
-    <xacro:property name="wheel_radius" value="0.03375"/>
+    <xacro:property name="wheel_offset_y" value="0.1675"/>
+    <xacro:property name="wheel_radius" value="0.034"/>
 
     <material name="white">
         <color rgba="1 1 1 1"/>
