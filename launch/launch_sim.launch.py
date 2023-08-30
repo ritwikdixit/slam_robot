@@ -1,7 +1,7 @@
 import os
 
 from ament_index_python.packages import get_package_share_directory
-
+from launch.actions import TimerAction
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -59,12 +59,23 @@ def generate_launch_description():
         arguments=["joint_broad"],
     )
 
+    # Credit to https://whatibroke.com/2022/12/11/ros2-controller-manager-not-available-articubot-tutorials/
+    # This helps to address race conditions on startup for the
+    # controller managers. Note that we are exporting delayed_controller_manager_spawner
+    # instead of just diff_drive_spawner.
+    delayed_controller_manager_spawner = TimerAction(
+        period=8.0,
+        actions=[
+            diff_drive_spawner,
+            joint_broad_spawner,
+        ],
+    )
+
     # Launch them all!
     return LaunchDescription([
         rsp,
-        joystick,
         gazebo,
         spawn_entity,
-        diff_drive_spawner,
-        joint_broad_spawner
+        delayed_controller_manager_spawner,
+        joystick,
     ])
